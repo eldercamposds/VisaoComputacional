@@ -49,10 +49,12 @@ def main():
 
         st.markdown("---")
         st.write("🔍 Comparação lado a lado:")
-        col3, col4 = st.columns(2)
+        col3, col4, col5 = st.columns(3)
         with col3:
             st.image(img1, caption="Imagem 1 Original", width='stretch')
             st.image(img2, caption="Imagem 2 Original", width='stretch')
+            
+           
             
         with col4:
             st.image(verde1, caption=f"Imagem 1 Verde ({pct1:.2f}%)", width='stretch')
@@ -63,17 +65,24 @@ def main():
             "Comparação": [pct1, pct2]
         }
 
-        
+        with col5:
+            label_imagem1 = ["area total", "area verde"] 
+            valores_imagem1 = [100-pct1, pct1]
+            fig = go.Figure(data=[go.Pie(labels=label_imagem1, values=valores_imagem1, hole=0.5)])
+            st.plotly_chart(fig, width='stretch')
+
+            label_imagem2 = ["area total", "area verde"] 
+            valores_imagem2 = [100-pct2, pct2]
+            fig = go.Figure(data=[go.Pie(labels=label_imagem2, values=valores_imagem2, hole=0.5)])
+            st.plotly_chart(fig, width='stretch')
+            
         df = pd.DataFrame(dados)
 
         st.title("Comparação entre imagens")
         st.bar_chart(df.set_index("Imagens"))
 
         st.title("Gráfico de Rosca imagem 1")
-        label_imagem1 = ["area total", "area verde"] 
-        valores_imagem1 = [100-pct1, pct1]
-
-        fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=0.5)])
+        
 
 if __name__ == "__main__":
     main()
