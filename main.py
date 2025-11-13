@@ -2,6 +2,8 @@ import streamlit as st
 import cv2
 import numpy as np
 from PIL import Image
+import pandas as pd
+import plotly.graph_objects as go
 
 def detectar_verde(imagem):
     imagem_np = np.array(imagem)
@@ -32,25 +34,46 @@ def main():
         verde1, pct1 = detectar_verde(img1)
         verde2, pct2 = detectar_verde(img2)
 
-        st.subheader("📊 Resultados")
-        st.write(f"**Imagem 1:** {pct1:.2f}% de área verde")
-        st.image(img1, caption="Imagem 1 Original", use_container_width=True)
-        st.image(verde1, caption="Imagem 1 - Áreas Verdes", use_container_width=True)
+        
 
-        st.write(f"**Imagem 2:** {pct2:.2f}% de área verde")
-        st.image(img2, caption="Imagem 2 Original", use_container_width=True)
-        st.image(verde2, caption="Imagem 2 - Áreas Verdes", use_container_width=True)
+
+        # st.subheader("📊 Resultados")
+        # st.write(f"**Imagem 1:** {pct1:.2f}% de área verde")
+        # st.image(img1, caption="Imagem 1 Original", width='stretch')
+        # st.image(verde1, caption="Imagem 1 - Áreas Verdes", width='stretch')
+
+        # st.write(f"**Imagem 2:** {pct2:.2f}% de área verde")
+        # st.image(img2, caption="Imagem 2 Original", width='stretch')
+        # st.image(verde2, caption="Imagem 2 - Áreas Verdes", width='stretch')
+        
 
         st.markdown("---")
         st.write("🔍 Comparação lado a lado:")
         col3, col4 = st.columns(2)
         with col3:
-            st.image(img1, caption="Imagem 1 Original", use_container_width=True)
-            st.image(img2, caption="Imagem 2 Original", use_container_width=True)
+            st.image(img1, caption="Imagem 1 Original", width='stretch')
+            st.image(img2, caption="Imagem 2 Original", width='stretch')
             
         with col4:
-            st.image(verde1, caption=f"Imagem 1 Verde ({pct1:.2f}%)", use_container_width=True)
-            st.image(verde2, caption=f"Imagem 2 Verde ({pct2:.2f}%)", use_container_width=True)
+            st.image(verde1, caption=f"Imagem 1 Verde ({pct1:.2f}%)", width='stretch')
+            st.image(verde2, caption=f"Imagem 2 Verde ({pct2:.2f}%)", width='stretch')
+
+        dados =  {
+            "Imagens": ["Imagem1", "Imagem2"],
+            "Comparação": [pct1, pct2]
+        }
+
+        
+        df = pd.DataFrame(dados)
+
+        st.title("Comparação entre imagens")
+        st.bar_chart(df.set_index("Imagens"))
+
+        st.title("Gráfico de Rosca imagem 1")
+        label_imagem1 = ["area total", "area verde"] 
+        valores_imagem1 = [100-pct1, pct1]
+
+        fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=0.5)])
 
 if __name__ == "__main__":
     main()
