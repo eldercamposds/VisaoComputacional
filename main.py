@@ -57,26 +57,22 @@ def main():
 
         st.markdown("---")
         st.write("🔍 Comparação lado a lado:")
-        col3, col4, col5 = st.columns(3)
+        col3, col4 = st.columns([0.3, 0.5])
         with col3:
             st.image(img1, caption="Imagem 1 Original", width='stretch')
-            st.image(img2, caption="Imagem 2 Original", width='stretch')
+            st.image(verde1, caption=f"Imagem 1 Verde ({pct1:.2f}%)", width='stretch')
+            
             
            
+        col5, col6  = st.columns([0.3, 0.5])
+        with col5:
+            st.image(verde1, caption=f"Imagem 1 Verde ({pct1:.2f}%)", width='stretch')
+            st.image(img2, caption="Imagem 2 Original", width='stretch')
             
         with col4:
-            st.image(verde1, caption=f"Imagem 1 Verde ({pct1:.2f}%)", width='stretch')
-            st.image(verde2, caption=f"Imagem 2 Verde ({pct2:.2f}%)", width='stretch')
-
-       
-
-        with col5:
             dados_px = pd.DataFrame({
             "label_imagem1" : ["area total", "area verde"], 
             "valores_imagem1" :  [100-pct1, pct1]})
-
-            # fig = go.Figure(data=[go.Pie(labels=label_imagem1, values=valores_imagem1, hole=0.5)])
-            # st.plotly_chart(fig, width='stretch')
 
             fig_px = px.pie(
                 dados_px,
@@ -85,24 +81,41 @@ def main():
                 hole=0.5,  # Define o "buraco" central
             )
 
-            st.plotly_chart(fig_px)
-
-
-            label_imagem2 = ["area total", "area verde"] 
-            valores_imagem2 = [100-pct2, pct2]
-            fig = go.Figure(data=[go.Pie(labels=label_imagem2, values=valores_imagem2, hole=0.5)])
-            st.plotly_chart(fig, width='stretch')
-
-        dados =  {
-            "Imagens": ["Imagem1", "Imagem2"],
-            "Comparação": [pct1, pct2]
-        }
+            st.plotly_chart(fig_px, width='content')
             
-        df = pd.DataFrame(dados)
-        
+            dados_px2 = pd.DataFrame({
+            "label_imagem1" : ["area total", "area verde"], 
+            "valores_imagem1" :  [100-pct2, pct2]})
 
-        st.title("Comparação entre imagens")
-        st.bar_chart(df.set_index("Imagens"))
+
+        with col6:
+            dados_px2 = pd.DataFrame({
+            "label_imagem2" : ["area total", "area verde"], 
+            "valores_imagem2" :  [100-pct2, pct2]})
+
+            fig_px = px.pie(
+                dados_px2,
+                names='label_imagem2',
+                values='valores_imagem2',
+                hole=0.5,  # Define o "buraco" central
+            )
+
+            st.plotly_chart(fig_px, width='content')
+            
+            dados_px2 = pd.DataFrame({
+            "label_imagem1" : ["area total", "area verde"], 
+            "valores_imagem1" :  [100-pct2, pct2]})
+        # with col6:
+        #     dados =  {
+        #         "Imagens": ["Imagem1", "Imagem2"],
+        #         "Comparação": [pct1, pct2]
+        #     }
+                
+        #     df = pd.DataFrame(dados)
+            
+
+        #     st.title("Comparação entre imagens")
+        #     st.bar_chart(df.set_index("Imagens"))
 
     
         
