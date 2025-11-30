@@ -6,6 +6,8 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 
+
+
 st.set_page_config(layout="wide")
 
 def detectar_verde(imagem):
@@ -59,15 +61,15 @@ def main():
         st.write("🔍 Comparação lado a lado:")
         col3, col4 = st.columns([0.3, 0.5])
         with col3:
-            st.image(img1, caption="Imagem 1 Original", width='stretch')
-            st.image(verde1, caption=f"Imagem 1 Verde ({pct1:.2f}%)", width='stretch')
+            st.image(img1, caption="Imagem 1 Original", width="content")
+            st.image(verde1, caption=f"Imagem 1 Verde ({pct1:.2f}%)", width="content")
             
         st.markdown("---")
            
         col5, col6  = st.columns([0.3, 0.5])
         with col5:
-            st.image(verde1, caption=f"Imagem 1 Verde ({pct1:.2f}%)", width='stretch')
-            st.image(img2, caption="Imagem 2 Original", width='stretch')
+            st.image(verde2, caption=f"Imagem 1 Verde ({pct1:.2f}%)",width="content")
+            st.image(img2, caption="Imagem 2 Original", width="content")
         
         st.markdown("---")
 
@@ -122,6 +124,8 @@ def main():
 
         col7, col8  = st.columns([0.3, 0.5])
         with col7:
+
+
             dados_barra = pd.DataFrame({
             "label_imagem2" : ["Verde"], 
             "Verde1" :  [pct1],
@@ -138,6 +142,22 @@ def main():
             )
 
             st.plotly_chart(fig, width='content')
+        with col8:
+            import rag2 as rg
+            dfdoc = pd.DataFrame({
+            "id" : [1, 2],
+            "titulo" : ["Imagem1", "Imagem2"],
+            "valor" : [pct1, pct2],
+            "descricao" : ["a coluna valor representa a quantidade de area verde na cidade da  imagem1",
+                           "a coluna valor representa a quantidade de area verde na cidade da  imagem 2"]})
+
+            content_cols = ['titulo', 'descricao', 'valor']
+            langchain_documents = rg.df_to_langchain_documents(dfdoc, content_cols)
+            resposta = rg.modelo(langchain_documents)
+
+            st.text(resposta['answer'])
+
+
         
 
 if __name__ == "__main__":
