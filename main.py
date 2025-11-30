@@ -23,6 +23,7 @@ def detectar_verde(imagem):
     return resultado_rgb, porcentagem_verde
 
 def main():
+    #st.image()
     st.title("🌿 Comparador de Áreas Verdes em Imagens de Satélite")
     st.sidebar.write("Faça upload de duas imagens de satélite para comparar a quantidade de verde.")
 
@@ -68,8 +69,9 @@ def main():
            
         col5, col6  = st.columns([0.3, 0.5])
         with col5:
-            st.image(verde2, caption=f"Imagem 1 Verde ({pct1:.2f}%)",width="content")
             st.image(img2, caption="Imagem 2 Original", width="content")
+            st.image(verde2, caption=f"Imagem 1 Verde ({pct1:.2f}%)",width="content")
+            
         
         st.markdown("---")
 
@@ -82,6 +84,7 @@ def main():
                 dados_px,
                 names='label_imagem1',
                 values='valores_imagem1',
+                color_discrete_sequence=["#0E8F21", "#1ADB35"],
                 hole=0.5,  # Define o "buraco" central
             )
 
@@ -102,6 +105,7 @@ def main():
                 dados_px2,
                 names='label_imagem2',
                 values='valores_imagem2',
+                color_discrete_sequence=["#0E8F21", "#1ADB35"],
                 hole=0.5,  # Define o "buraco" central
             )
 
@@ -124,12 +128,12 @@ def main():
 
         col7, col8  = st.columns([0.3, 0.5])
         with col7:
-
+            
 
             dados_barra = pd.DataFrame({
             "label_imagem2" : ["Verde"], 
-            "Verde1" :  [pct1],
-            "Verde2" :  [pct2]})
+            "Verde1" :  [pct1/100],
+            "Verde2" :  [pct2/100]})
 
             st.title("Comparação entre as duas imagens")
             fig = px.bar(
@@ -138,8 +142,11 @@ def main():
                 y=["Verde1", "Verde2"],
                 barmode="group",
                 text_auto=True,
+                color_discrete_sequence=["#0E8F21", "#1ADB35"],
                 title="comparação"
             )
+            fig.update_traces(texttemplate="%{y:.2%}")
+           
 
             st.plotly_chart(fig, width='content')
         with col8:
@@ -155,7 +162,7 @@ def main():
             langchain_documents = rg.df_to_langchain_documents(dfdoc, content_cols)
             resposta = rg.modelo(langchain_documents)
 
-            st.text(resposta['answer'])
+            st.markdown(resposta['answer'])
 
 
         
