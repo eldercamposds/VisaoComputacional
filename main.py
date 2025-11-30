@@ -23,8 +23,8 @@ def detectar_verde(imagem):
     return resultado_rgb, porcentagem_verde
 
 def main():
-    #st.image()
-    st.title("🌿 Comparador de Áreas Verdes em Imagens de Satélite")
+    st.image("logo.png")
+    st.title("Comparador de Áreas Verdes em Imagens de Satélite")
     st.sidebar.write("Faça upload de duas imagens de satélite para comparar a quantidade de verde.")
 
     imagem1 = st.sidebar.file_uploader("Imagem 1", type=["jpg", "jpeg", "png"], key="img1")
