@@ -62,13 +62,15 @@ def main():
             st.image(img1, caption="Imagem 1 Original", width='stretch')
             st.image(verde1, caption=f"Imagem 1 Verde ({pct1:.2f}%)", width='stretch')
             
-            
+        st.markdown("---")
            
         col5, col6  = st.columns([0.3, 0.5])
         with col5:
             st.image(verde1, caption=f"Imagem 1 Verde ({pct1:.2f}%)", width='stretch')
             st.image(img2, caption="Imagem 2 Original", width='stretch')
-            
+        
+        st.markdown("---")
+
         with col4:
             dados_px = pd.DataFrame({
             "label_imagem1" : ["area total", "area verde"], 
@@ -86,7 +88,8 @@ def main():
             dados_px2 = pd.DataFrame({
             "label_imagem1" : ["area total", "area verde"], 
             "valores_imagem1" :  [100-pct2, pct2]})
-
+        
+        
 
         with col6:
             dados_px2 = pd.DataFrame({
@@ -117,7 +120,24 @@ def main():
         #     st.title("Comparação entre imagens")
         #     st.bar_chart(df.set_index("Imagens"))
 
-    
+        col7, col8  = st.columns([0.3, 0.5])
+        with col7:
+            dados_barra = pd.DataFrame({
+            "label_imagem2" : ["Verde"], 
+            "Verde1" :  [pct1],
+            "Verde2" :  [pct2]})
+
+            st.title("Comparação entre as duas imagens")
+            fig = px.bar(
+                dados_barra,
+                x="label_imagem2",
+                y=["Verde1", "Verde2"],
+                barmode="group",
+                text_auto=True,
+                title="comparação"
+            )
+
+            st.plotly_chart(fig, width='content')
         
 
 if __name__ == "__main__":
