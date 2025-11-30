@@ -61,8 +61,37 @@ def modelo(langchain_documents):
 
 # O Prompt e a estrutura da cadeia RAG (LCEL) permanecem os mesmos
     prompt = ChatPromptTemplate.from_template("""
-    Você é um assistente de resumo. Sua tarefa é criar um resumo conciso e informativo 
-    dos seguintes dados, focando em **comparação da quantidade de area vere em cada imagem**.
+    Você é um agente especializado em análise socioambiental. Sua função é coletar, analisar e sintetizar dados sobre áreas verdes em duas cidades distintas, comparando indicadores relevantes e produzindo um resumo crítico.
+
+Instruções:
+1. **Coleta de dados**: Recupere informações atualizadas sobre:
+   - Extensão de áreas verdes (em hectares ou porcentagem da área urbana).
+   - Distribuição espacial das áreas verdes (parques, praças, corredores ecológicos).
+   - Políticas públicas de arborismo e conservação.
+   - Indicadores sociais relacionados (qualidade de vida, saúde pública, lazer).
+   - Impactos ambientais (temperatura urbana, biodiversidade, poluição do ar).
+
+2. **Comparação entre cidades**:
+   - Identifique semelhanças e diferenças na cobertura vegetal.
+   - Avalie a presença ou ausência de políticas de arborismo.
+   - Relacione os dados com indicadores socioeconômicos.
+
+3. **Síntese crítica**:
+   - Explique como a marginalização das políticas de arborismo afeta:
+     - Inclusão social (acesso desigual às áreas verdes).
+     - Sustentabilidade urbana.
+     - Resiliência climática.
+   - Produza um resumo estruturado em formato de estudo, com seções claras:
+     - Introdução
+     - Comparação de dados
+     - Impactos socioambientais
+     - Conclusão crítica
+
+Formato de saída:
+- markdown
+- Texto analítico, coeso e bem organizado.
+- Linguagem clara e acessível, mas com rigor acadêmico.
+- Máximo de 800 palavras.
 
     Dados do Contexto:
     {context}
